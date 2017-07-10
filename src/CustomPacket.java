@@ -1,4 +1,5 @@
 import java.net.DatagramPacket;
+import java.net.InetAddress;
 import java.nio.ByteBuffer;
 
 /**
@@ -76,7 +77,7 @@ public class CustomPacket {
      * Takes data stored in object and bundles it into a DatagramPacket
      * @return DatagramPacket containing info stored in this object
      */
-    public DatagramPacket getPacket(){
+    public DatagramPacket getPacket(InetAddress recieverAddr, int port){
 
         ByteBuffer buffer = ByteBuffer.allocate(len);
         buffer.putShort(cksum);
@@ -87,7 +88,7 @@ public class CustomPacket {
             buffer.put(data);
         }
 
-        return new DatagramPacket(buffer.array(), len);
+        return new DatagramPacket(buffer.array(), len, recieverAddr, port);
     }
 
     public static CustomPacket parsePacket(byte[] packetIn){ return new CustomPacket(packetIn);  }
